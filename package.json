@@ -1,0 +1,20 @@
+{
+  "name": "node-express",
+  "version": "1.0.0",
+  "description": "node express start learning",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.4",
+    "nodemon": "^2.0.13",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon -L app.js"
+  },
+  "author": "Moazzam Ali",
+  "license": "ISC"
+}
