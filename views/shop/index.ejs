@@ -1,7 +1,7 @@
-<%- include('includes/app.ejs') %>
+<%- include('../includes/app.ejs') %>
 
 
-<%- include('includes/header.ejs') %>
+<%- include('../includes/header.ejs') %>
 
 <main class="site-main">
 
@@ -34,13 +34,13 @@
       <div class="owl-carousel owl-theme hero-carousel">
         <% for(product of data){ %>
           <div class="hero-carousel__slide">
-            <img src="/img/home/<%= product.picture %>" alt="" class="img-fluid">
-            <a href="#" class="hero-carousel__slideOverlay">
+            <img src="data:image/png;base64, <%= product.image %>" alt="" class="img-fluid">
+            <a href="/admin/view-product/<%= product.id %> " class="hero-carousel__slideOverlay">
               <h3>
                 <%= product.title %>
               </h3>
               <p>
-                <%= product.sku %>
+                Price: $<%= product.price %>
               </p>
               <p> Left: <%= product.stock %>
               </p>
@@ -466,4 +466,4 @@
 
 </main>
 
-<%- include('includes/footer.ejs') %>
+<%- include('../includes/footer.ejs') %>
