@@ -34,7 +34,7 @@ exports.store = (req, res, next) => {
     const picture = req.body.product_picture;
     const absolutePathOfImage = path.resolve(folder, picture);
 
-    Product.create({
+    req.user.createProduct({
         title: title,
         price: price,
         stock: stock,
@@ -115,14 +115,14 @@ exports.update = (req, res, next) => {
             product.description = new_description;
             product.stock = new_stock;
             product.sku = new_sku;
-            if (absolutePathOfImage !== null) {  
+            if (absolutePathOfImage !== null) {
                 product.image = fs.readFileSync(absolutePathOfImage, 'base64');
             }
             return product.save();
         })
-        .then( result => {
+        .then(result => {
             res.redirect('/admin/products');
-        } )
+        })
         .catch(err => {
             console.log(err);
         });
@@ -131,13 +131,76 @@ exports.update = (req, res, next) => {
 exports.delete = (req, res, next) => {
     const product_id = req.params.id;
     Product.findByPk(product_id)
-        .then( product => {
+        .then(product => {
             return product.destroy();
         })
-        .then( result => {
+        .then(result => {
             res.redirect('admin/products')
         })
         .catch(err => {
             console.log(err);
         });
+}
+
+exports.cart = (req, res, next) => {
+    req.user.getCart()
+        .then(cart => {
+            return cart.getProducts()
+                .then(products => {
+                    console.log(products[0].cart_item.quantity);
+                    res.render('shop/cart', {
+                        products: products,
+                        pageTitle: 'Cart',
+                        activeCart: true
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+exports.addToCart = (req, res, next) => {
+    const product_id = req.params.id;
+    let fetchedCart;
+    let new_quantity;
+    req.user
+        .getCart()
+        .then(cart => {
+            fetchedCart = cart;
+            return cart.getProducts({ where: { id: product_id } })
+        })
+        .then(products => {
+            let product;
+            if (products.length > 0) {
+                product = products[0];
+            }
+            if (product) {
+                let oldQuantity = product.cart_item.quantity;
+                new_quantity = oldQuantity++;
+                return product;
+            }
+
+            return Product.findByPk(product_id)
+                .then(product => {
+                    return fetchedCart
+                        .addProduct(product, {
+                            through: {
+                                quantity: new_quantity
+                            }
+                        })
+                })
+                .then(() => {
+                    res.redirect('/cart');
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }

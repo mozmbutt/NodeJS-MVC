@@ -9,6 +9,8 @@ const sequelize = require('./util/database');
 
 const Product = require('./app/Models/Product');
 const User = require('./app/Models/User');
+const Cart = require('./app/Models/Cart');
+const CartItem = require('./app/Models/CartItem');
 
 const app = express();
 
@@ -18,9 +20,9 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-app.use( (req, res, next) => {
+app.use((req, res, next) => {
     User.findByPk(1)
-        .then( user => {
+        .then(user => {
             req.user = user;
             next();
         })
@@ -41,10 +43,19 @@ Product.belongsTo(User, {
     constraints: true,
     onDelete: 'CASCADE'
 });
-
 User.hasMany(Product);
 
-sequelize.sync({ force: true })
+User.hasOne(Cart);
+Cart.belongsTo(User);
+
+Cart.belongsToMany(Product, {
+    through: CartItem
+});
+Product.belongsToMany(Cart, {
+    through: CartItem
+});
+
+sequelize.sync()
     .then(result => {
         return User.findByPk(1);
     })
@@ -57,7 +68,10 @@ sequelize.sync({ force: true })
         }
         return user;
     })
-    .then( () => {
+    // .then(user => {
+    //     return user.createCart();
+    // })
+    .then(() => {
         app.listen(8000);
     })
     .catch(err => {
