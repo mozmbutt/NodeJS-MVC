@@ -35,7 +35,7 @@
         <% for(product of data){ %>
           <div class="hero-carousel__slide">
             <img src="data:image/png;base64, <%= product.image %>" alt="" class="img-fluid">
-            <a href="/admin/view-product/<%= product.id %> " class="hero-carousel__slideOverlay">
+            <a href="/view-product/<%= product.id %> " class="hero-carousel__slideOverlay">
               <h3>
                 <%= product.title %>
               </h3>

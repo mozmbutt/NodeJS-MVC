@@ -26,6 +26,7 @@
             <div class="tracking_box_inner">
                 <p>Add your new product to store.</p>
                 <form class="row tracking_form" action="/admin/product" method="post" novalidate="novalidate" >
+                    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                     <div class="col-md-12 form-group">
                         <input type="text" class="form-control" id="product_title" name="product_title"
                             placeholder="Product Title" onfocus="this.placeholder = ''"

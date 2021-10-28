@@ -40,7 +40,8 @@
                                 <tbody>
 
                                     <% for(product of products) { %>
-                                        <form action="/remove-from-cart" method="post" novalidate="novalidate">
+                                        <form action="/admin/remove-from-cart" method="post" novalidate="novalidate">
+                                            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                                             <tr>
                                                 <td>
                                                     <div class="media">
@@ -167,7 +168,9 @@
                                                 <td>
                                                     <div class="checkout_btn_inner d-flex align-items-center">
                                                         <a class="gray_btn" href="/">Continue Shopping</a>
-                                                        <form action="/proceedToCheckout" method="post">
+                                                        <form action="/admin/proceedToCheckout" method="post">
+                                                            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+
                                                             <button type="submit" value="submit"
                                                                 class="button danger-btn">Proceed to Checkout</button>
                                                         </form>

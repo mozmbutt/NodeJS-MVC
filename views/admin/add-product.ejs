@@ -1,75 +1,76 @@
-<%- include('../includes/app.ejs') %> 
-<%- include('../includes/header.ejs') %> 
+<%- include('../includes/app.ejs') %>
+    <%- include('../includes/header.ejs') %>
 
-    <!-- ================ start banner area ================= -->
-    <section class="blog-banner-area" id="category">
-        <div class="container h-100">
-            <div class="blog-banner">
-                <div class="text-center">
-                    <h1>Add New Product</h1>
-                    <nav aria-label="breadcrumb" class="banner-breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Add New Product</li>
-                        </ol>
-                    </nav>
+        <!-- ================ start banner area ================= -->
+        <section class="blog-banner-area" id="category">
+            <div class="container h-100">
+                <div class="blog-banner">
+                    <div class="text-center">
+                        <h1>Add New Product</h1>
+                        <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Add New Product</li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- ================ end banner area ================= -->
+        </section>
+        <!-- ================ end banner area ================= -->
 
 
-    <!--================Add Product Box Area =================-->
-    <section class="tracking_box_area section-margin--small">
-        <div class="container">
-            <div class="tracking_box_inner">
-                <p>Add your new product to store.</p>
-                <form class="row tracking_form" action="/admin/product" method="post" novalidate="novalidate" >
-                    <div class="col-md-12 form-group">
-                        <input type="text" class="form-control" id="product_title" name="product_title"
-                            placeholder="Product Title" onfocus="this.placeholder = ''"
-                            onblur="this.placeholder = 'Product Title'" required/>
-                    </div>
+        <!--================Add Product Box Area =================-->
+        <section class="tracking_box_area section-margin--small">
+            <div class="container">
+                <div class="tracking_box_inner">
+                    <p>Add your new product to store.</p>
+                    <form class="row tracking_form" action="/admin/product" method="post" novalidate="novalidate">
+                        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="product_title" name="product_title"
+                                placeholder="Product Title" onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Product Title'" required />
+                        </div>
 
-                    <div class="col-md-12 form-group">
-                        <input type="number" class="form-control" id="product_price" name="product_price"
-                            placeholder="Product Price" onfocus="this.placeholder = ''"
-                            onblur="this.placeholder = 'Product Price'" required>
-                    </div>
+                        <div class="col-md-12 form-group">
+                            <input type="number" class="form-control" id="product_price" name="product_price"
+                                placeholder="Product Price" onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Product Price'" required>
+                        </div>
 
-                    <div class="col-md-12 form-group">
-                        <input type="text" class="form-control" id="product_description" name="product_description"
-                            placeholder="Product Description" onfocus="this.placeholder = ''"
-                            onblur="this.placeholder = 'Product Description'" required>
-                    </div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="product_description" name="product_description"
+                                placeholder="Product Description" onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Product Description'" required>
+                        </div>
 
 
-                    <div class="col-md-12 form-group">
-                        <input type="number" class="form-control" id="product_stock" name="product_stock"
-                            placeholder="Product Stock" onfocus="this.placeholder = ''"
-                            onblur="this.placeholder = 'Product Stock'" required>
-                    </div>
+                        <div class="col-md-12 form-group">
+                            <input type="number" class="form-control" id="product_stock" name="product_stock"
+                                placeholder="Product Stock" onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Product Stock'" required>
+                        </div>
 
-                    <div class="col-md-12 form-group">
-                        <input type="text" class="form-control" id="product_sku" name="product_sku"
-                            placeholder="Product SKU" onfocus="this.placeholder = ''"
-                            onblur="this.placeholder = 'Product SKU'" required>
-                    </div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="product_sku" name="product_sku"
+                                placeholder="Product SKU" onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Product SKU'" required>
+                        </div>
 
-                    <div class="col-md-12 form-group">
-                        <input required type="file" class="form-control" id="product_picture" name="product_picture"
-                            placeholder="Product Picture" onfocus="this.placeholder = ''"
-                            onblur="this.placeholder = 'Product Picture'" required>
-                    </div>
+                        <div class="col-md-12 form-group">
+                            <input required type="file" class="form-control" id="product_picture" name="product_picture"
+                                placeholder="Product Picture" onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Product Picture'" required>
+                        </div>
 
-                    <div class="col-md-12 form-group">
-                        <button type="submit" value="submit" class="button button-tracking">Add Product</button>
-                    </div>
-                </form>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" class="button button-tracking">Add Product</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-    </section>
-    <!--================End Add Product Box Area =================-->
+        </section>
+        <!--================End Add Product Box Area =================-->
 
-<%- include('../includes/footer.ejs') %> 
+        <%- include('../includes/footer.ejs') %>

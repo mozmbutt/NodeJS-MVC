@@ -38,6 +38,7 @@
 						<div class="login_form_inner">
 							<h3>Log in to enter</h3>
 							<form class="row login_form" action="/admin/login" id="contactForm" method="post">
+								<input type="hidden" value="<%= csrfToken %>" name="_csrf">
 								<div class="col-md-12 form-group">
 									<input type="email" class="form-control" id="email" name="email" placeholder="Email" required
 										onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">

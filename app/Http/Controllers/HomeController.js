@@ -1,38 +1,33 @@
 exports.index = (req, res, next) => {
     res.render('shop/index', {
         data: [],
-        pageTitle: 'Home',
-        isAuthenticated: req.session.isLoggedIn
+        pageTitle: 'Home'
     });
 }
 
 exports.not_found_404 = (req, res, next) => {
     res.status(404).render('404', {
-        pageTitle: '404 - Page Not Found',
-        isAuthenticated: req.session.isLoggedIn
+        pageTitle: '404 - Page Not Found'
     });
 }
 
 exports.cart = (req, res, next) => {
     res.render('shop/cart', {
         pageTitle: 'Cart',
-        activeCart: true,
-        isAuthenticated: req.session.isLoggedIn
+        activeCart: true
     });
 }
 
 exports.checkout = (req, res, next) => {
     res.render('shop/checkout', {
         pageTitle: 'Checkout',
-        activeCheckout: true,
-        isAuthenticated: req.session.isLoggedIn
+        activeCheckout: true
     });
 }
 
 exports.contact = (req, res, next) => {
     res.render('contact', {
         pageTitle: 'Contact Us',
-        activeContact: true,
-        isAuthenticated: req.session.isLoggedIn
+        activeContact: true
     });
 }

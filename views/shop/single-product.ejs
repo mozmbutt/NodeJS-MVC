@@ -47,7 +47,9 @@
 								<li><a href="#"><span>Availibility</span> : In Stock <%= product.stock %> </a></li>
 							</ul>
 							<p> <%= product.description %>  </p>
-							<form action="/add-to-cart" method="post" novalidate="novalidate" >
+							<form action="/admin/add-to-cart" method="post" novalidate="novalidate" >
+								<input type="hidden" value="<%= csrfToken %>" name="_csrf">
+
 								<div>
 									<label for="qty">Quantity:</label>
 									<input type="number" name="qty" id="sst" size="2" maxlength="12" value="1"

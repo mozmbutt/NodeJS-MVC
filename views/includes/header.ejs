@@ -30,44 +30,51 @@
                             <% if(isAuthenticated) { %>
 
                                 <li class="nav-item submenu dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                      aria-expanded="false">Admin Panel</a>
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                        aria-haspopup="true" aria-expanded="false">Admin Panel</a>
                                     <ul class="dropdown-menu">
-                                      <li class="nav-item"><a class="nav-link" href="/admin/products">Products</a></li>
-                                      <li class="nav-item"><a class="nav-link" href="/admin/add-product">Add Product</a></li>
-                                      <li class="nav-item"><a class="nav-link" href="/admin/orders">Orders</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="/admin/products">Products</a>
+                                        </li>
+                                        <li class="nav-item"><a class="nav-link" href="/admin/add-product">Add
+                                                Product</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="/admin/orders">Orders</a></li>
                                     </ul>
                                 </li>
 
                                 <li class="nav-item <%= typeof activeContact !== 'undefined'  ? 'active' : '' %> ">
-                                    <a class="nav-link" href="/admin/logout">
-                                        Logout
+                                    <form action="/admin/logout" method="post">
+                                        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                        <input class="nav-link" type="submit" value="Logout">
+                                    </form>
+                                </li>
+
+                                <% } else { %>
+                                    <li class="nav-item submenu dropdown">
+                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                                            role="button" aria-haspopup="true" aria-expanded="false">User</a>
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="/admin/register">Register</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <% } %>
+
+                        </ul>
+
+                        <% if(isAuthenticated) { %>
+
+                            <ul class="nav-shop">
+                                <li class="nav-item <%= typeof activeCart !== 'undefined'  ? 'active' : '' %>">
+                                    <a href="/admin/cart">
+                                        <i class="ti-shopping-cart"></i>
+                                        <span class="nav-shop__circle">
+                                            3
+                                        </span>
                                     </a>
                                 </li>
-
-                            <% } else { %> 
-                                <li class="nav-item submenu dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">User</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="/admin/register">Register</a></li>
-                                    </ul>
-                                </li>
+                            </ul>
                             <% } %>
-
-                        </ul>
-
-                        <ul class="nav-shop">
-                            <li class="nav-item <%= typeof activeCart !== 'undefined'  ? 'active' : '' %>">
-                                <a href="/cart">
-                                    <i class="ti-shopping-cart"></i>
-                                    <span class="nav-shop__circle">
-                                        3
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </nav>

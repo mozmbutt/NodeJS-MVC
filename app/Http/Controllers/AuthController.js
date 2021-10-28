@@ -6,7 +6,6 @@ exports.login = (req, res, next) => {
     res.render('auth/login', {
         pageTitle: 'Login',
         activeLogin: true,
-        isAuthenticated: req.session.isLoggedIn
     });
 }
 
@@ -14,7 +13,6 @@ exports.register = (req, res, next) => {
     res.render('auth/register', {
         pageTitle: 'Register',
         activeRegister: true,
-        isAuthenticated: req.session.isLoggedIn
     });
 }
 
@@ -102,10 +100,8 @@ exports.registerUser = (req, res, next) => {
 }
 
 exports.logout = (req, res, next) => {
-    req.session.isLoggedIn = false;
-    req.session.user = null;
     req.session.destroy( err => {
         console.log(err);
+        return res.redirect('/');
     });
-    return res.redirect('/');
 }

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const SessionStore = require('express-session-sequelize')(session.Store);
+const csrf = require('csurf');
 
 //project files
 const authRoutes = require('./routes/auth');
@@ -21,6 +22,7 @@ const sequelize = require('./util/database');
 const sequelizeSessionStore = new SessionStore({
     db: sequelize,
 });
+const csrfProtection = csrf();
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,22 +38,28 @@ app.use(session({
     saveUninitialized: false,
 }));
 
+app.use(csrfProtection);
 
 app.use((req, res, next) => {
     if (!req.session.user) {
-      return next();
+        return next();
     }
     User.findByPk(req.session.user.id)
-      .then(user => {
-        req.user = user;
-        next();
-      })
-      .catch(err => console.log(err));
-  });
-
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => console.log(err));
+});
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
+
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
 
 app.use('/admin', shopRoutes);
 app.use('/admin', authRoutes);

@@ -38,6 +38,7 @@
 						<div class="login_form_inner register_form_inner">
 							<h3>Create an account</h3>
 							<form class="row login_form" action="/admin/register" id="register_form" method="post">
+								<input type="hidden" value="<%= csrfToken %>" name="_csrf">
 								<div class="col-md-12 form-group">
 									<input type="text" class="form-control" id="name" name="username" placeholder="Username"
 										onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">

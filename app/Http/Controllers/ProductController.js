@@ -11,7 +11,6 @@ exports.index = (req, res, next) => {
                 data: products,
                 pageTitle: 'Aroma Shop - Home',
                 activeHome: true,
-                isAuthenticated: req.session.isLoggedIn
             });
         })
         .catch(err => {
@@ -23,7 +22,8 @@ exports.create = (req, res, next) => {
     res.render('admin/add-product', {
         pageTitle: 'Add Product',
         activeAddProduct: true,
-        isAuthenticated: req.session.isLoggedIn
+        isAuthenticated: req.session.isLoggedIn,
+        csrfToken: req.csrfToken()
     });
 }
 
@@ -60,7 +60,6 @@ exports.show = (req, res, next) => {
                 products: products,
                 pageTitle: 'Products',
                 activeProducts: true,
-                isAuthenticated: req.session.isLoggedIn
             });
         })
         .catch(err => {
@@ -76,7 +75,6 @@ exports.fetchById = (req, res, next) => {
                 product: product,
                 pageTitle: product.title,
                 activeProducts: true,
-                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -92,7 +90,6 @@ exports.edit = (req, res, next) => {
                 product: product,
                 pageTitle: 'Edit-' + product.title,
                 activeAddProduct: true,
-                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -158,7 +155,8 @@ exports.cart = (req, res, next) => {
                         products: products,
                         pageTitle: 'Cart',
                         activeCart: true,
-                        isAuthenticated: req.session.isLoggedIn
+                        isAuthenticated: req.session.isLoggedIn,
+                        csrfToken: req.csrfToken()
                     });
                 })
                 .catch(err => {
@@ -204,7 +202,7 @@ exports.addToCart = (req, res, next) => {
                 })
                 .then(() => {
                     
-                    res.redirect('/cart');
+                    res.redirect('/admin/cart');
                 })
                 .catch(err => {
                     console.log(err);
@@ -228,7 +226,7 @@ exports.deleteFromCart = (req , res , next) => {
             product.cart_item.destroy();
         })
         .then(result => {
-            res.redirect('/cart');
+            res.redirect('/admin/cart');
         })
         .catch( err => {
             console.log(err);
@@ -261,7 +259,6 @@ exports.proceedToCheckout = (req, res, next) => {
                 products: products,
                 shipping_rate: 50,
                 activeCheckout: true,
-                isAuthenticated: req.session.isLoggedIn
             });
         })
         .catch( err => {
