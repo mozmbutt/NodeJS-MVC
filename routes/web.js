@@ -5,7 +5,12 @@ const ProductController = require('../app/Http/Controllers/ProductController');
 
 router.get('/' , ProductController.index)
 router.get('/cart' , ProductController.cart)
-router.get('/add-to-cart/:id' , ProductController.addToCart)
+router.post('/add-to-cart' , ProductController.addToCart)
+router.post('/remove-from-cart' , ProductController.deleteFromCart)
+router.post('/proceedToCheckout' , ProductController.proceedToCheckout)
+
+
+
 router.get('/checkout' , HomeController.checkout)
 router.get('/contact' , HomeController.contact)
 

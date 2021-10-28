@@ -37,9 +37,9 @@
 					<div class="col-lg-6">
 						<div class="login_form_inner register_form_inner">
 							<h3>Create an account</h3>
-							<form class="row login_form" action="#/" id="register_form">
+							<form class="row login_form" action="/admin/register" id="register_form" method="post">
 								<div class="col-md-12 form-group">
-									<input type="text" class="form-control" id="name" name="name" placeholder="Username"
+									<input type="text" class="form-control" id="name" name="username" placeholder="Username"
 										onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
 								</div>
 								<div class="col-md-12 form-group">
@@ -48,12 +48,12 @@
 										onblur="this.placeholder = 'Email Address'">
 								</div>
 								<div class="col-md-12 form-group">
-									<input type="text" class="form-control" id="password" name="password"
+									<input type="password" class="form-control" id="password" name="password"
 										placeholder="Password" onfocus="this.placeholder = ''"
 										onblur="this.placeholder = 'Password'">
 								</div>
 								<div class="col-md-12 form-group">
-									<input type="text" class="form-control" id="confirmPassword" name="confirmPassword"
+									<input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
 										placeholder="Confirm Password" onfocus="this.placeholder = ''"
 										onblur="this.placeholder = 'Confirm Password'">
 								</div>

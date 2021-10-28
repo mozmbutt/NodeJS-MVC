@@ -47,22 +47,18 @@
 								<li><a href="#"><span>Availibility</span> : In Stock <%= product.stock %> </a></li>
 							</ul>
 							<p> <%= product.description %>  </p>
-							<div class="product_count">
-								<label for="qty">Quantity:</label>
-								<button
-									onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-									class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
-								<input type="text" name="qty" id="sst" size="2" maxlength="12" value="1"
-									title="Quantity:" class="input-text qty">
-								<button
-									onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-									class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
-								<a class="button primary-btn" href="/add-to-cart/<%= product.id %> ">Add to Cart</a>
-							</div>
-							<div class="card_area d-flex align-items-center">
-								<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-								<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
-							</div>
+							<form action="/add-to-cart" method="post" novalidate="novalidate" >
+								<div>
+									<label for="qty">Quantity:</label>
+									<input type="number" name="qty" id="sst" size="2" maxlength="12" value="1"
+										title="Quantity:" class="input-text qty">
+									
+										<input type="hidden" name="product_id" value="<%= product.id %>">
+										
+									<button type="submit" value="submit" class="button primary-btn">Add To Cart</button>
+								</div>
+							</form>
+							
 						</div>
 					</div>
 				</div>

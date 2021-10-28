@@ -21,43 +21,41 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item <%= typeof activeProducts !== 'undefined'  ? 'active' : '' %> ">
-                                <a class="nav-link" href="/admin/products">
-                                    Products
-                                </a>
-                            </li>
-
-                            <li class="nav-item <%= typeof activeAddProduct !== 'undefined'  ? 'active' : '' %>">
-                                <a class="nav-link" href="/admin/add-product">
-                                    Add Product
-                                </a>
-                            </li>
-
-
                             <li class="nav-item <%= typeof activeContact !== 'undefined'  ? 'active' : '' %> ">
                                 <a class="nav-link" href="/contact">
                                     Contact
                                 </a>
                             </li>
 
+                            <% if(isAuthenticated) { %>
 
-                            <li class="nav-item <%= typeof activeLogin !== 'undefined'  ? 'active' : '' %>">
-                                <a class="nav-link" href="/admin/login">
-                                    Login
-                                </a>
-                            </li>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                      aria-expanded="false">Admin Panel</a>
+                                    <ul class="dropdown-menu">
+                                      <li class="nav-item"><a class="nav-link" href="/admin/products">Products</a></li>
+                                      <li class="nav-item"><a class="nav-link" href="/admin/add-product">Add Product</a></li>
+                                      <li class="nav-item"><a class="nav-link" href="/admin/orders">Orders</a></li>
+                                    </ul>
+                                </li>
 
-                            <li class="nav-item <%= typeof activeRegister !== 'undefined'  ? 'active' : '' %>">
-                                <a class="nav-link" href="/admin/register">
-                                    Sign Up
-                                </a>
-                            </li>
+                                <li class="nav-item <%= typeof activeContact !== 'undefined'  ? 'active' : '' %> ">
+                                    <a class="nav-link" href="/admin/logout">
+                                        Logout
+                                    </a>
+                                </li>
 
-                            <li class="nav-item <%= typeof activeCheckout !== 'undefined'  ? 'active' : '' %>">
-                                <a class="nav-link" href="/checkout">
-                                    Checkout
-                                </a>
-                            </li>
+                            <% } else { %> 
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false">User</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="/admin/register">Register</a></li>
+                                    </ul>
+                                </li>
+                            <% } %>
+
                         </ul>
 
                         <ul class="nav-shop">

@@ -131,49 +131,62 @@
             <div class="col-lg-4">
               <div class="order_box">
                 <h2>Your Order</h2>
-                <ul class="list">
-                  <li><a href="#">
-                      <h4>Product <span>Total</span></h4>
-                    </a></li>
-                  <li><a href="#">Fresh Blackberry <span class="middle">x 02</span> <span
-                        class="last">$720.00</span></a></li>
-                  <li><a href="#">Fresh Tomatoes <span class="middle">x 02</span> <span class="last">$720.00</span></a>
-                  </li>
-                  <li><a href="#">Fresh Brocoli <span class="middle">x 02</span> <span class="last">$720.00</span></a>
-                  </li>
-                </ul>
-                <ul class="list list_2">
-                  <li><a href="#">Subtotal <span>$2160.00</span></a></li>
-                  <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
-                  <li><a href="#">Total <span>$2210.00</span></a></li>
-                </ul>
-                <div class="payment_item">
-                  <div class="radion_btn">
-                    <input type="radio" id="f-option5" name="selector">
-                    <label for="f-option5">Check payments</label>
-                    <div class="check"></div>
+                <% if(products.length> 0){ %>
+                  <ul class="list">
+                    <li>
+                      <a href="#">
+                        <h4>Product <span>Total</span></h4>
+                      </a>
+                    </li>
+                    <% for(product of products) { %>
+                      <li>
+                        <a href="#">
+                          <%= product.title %>
+                            <span class="middle">x <%= product.cart_item.quantity %></span>
+                            <span class="last item_total"><%= parseInt( product.cart_item.quantity) * parseInt(product.price) %>
+                                </span>
+                        </a>
+                      </li>
+                      <% } %>
+                  </ul>
+
+                  <ul class="list list_2">
+                    <li><a href="#">Subtotal <span id="sub_total"></span></a></li>
+                    <li><a href="#">Shipping Rate <span id="shippig_rate"><%= shipping_rate %></span></a></li>
+                    <li><a href="#">Total <span id="total_amount"></span></a></li>
+                  </ul>
+
+                  <div class="payment_item">
+                    <div class="radion_btn">
+                      <input type="radio" id="f-option5" name="selector">
+                      <label for="f-option5">Check payments</label>
+                      <div class="check"></div>
+                    </div>
+                    <p>Please send a check to Store Name, Store Street, Store Town, Store State / County,
+                      Store Postcode.</p>
                   </div>
-                  <p>Please send a check to Store Name, Store Street, Store Town, Store State / County,
-                    Store Postcode.</p>
-                </div>
-                <div class="payment_item active">
-                  <div class="radion_btn">
-                    <input type="radio" id="f-option6" name="selector">
-                    <label for="f-option6">Paypal </label>
-                    <img src="img/product/card.jpg" alt="">
-                    <div class="check"></div>
+
+                  <div class="payment_item active">
+                    <div class="radion_btn">
+                      <input type="radio" id="f-option6" name="selector">
+                      <label for="f-option6">Paypal </label>
+                      <img src="img/product/card.jpg" alt="">
+                      <div class="check"></div>
+                    </div>
+                    <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
+                      account.</p>
                   </div>
-                  <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
-                    account.</p>
-                </div>
-                <div class="creat_account">
-                  <input type="checkbox" id="f-option4" name="selector">
-                  <label for="f-option4">I’ve read and accept the </label>
-                  <a href="#">terms & conditions*</a>
-                </div>
-                <div class="text-center">
-                  <a class="button button-paypal" href="#">Proceed to Paypal</a>
-                </div>
+
+                  <div class="creat_account">
+                    <input type="checkbox" id="f-option4" name="selector">
+                    <label for="f-option4">I’ve read and accept the </label>
+                    <a href="#">terms & conditions*</a>
+                  </div>
+
+                  <div class="text-center">
+                    <a class="button button-paypal" href="#">Proceed to Paypal</a>
+                  </div>
+                  <% } %>
               </div>
             </div>
           </div>
@@ -185,3 +198,23 @@
 
 
     <%- include('../includes/footer.ejs') %>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+        $(document).ready(function () {
+          const items_prices = $(".item_total");
+          let sub_total = 0;
+          for (var i = 0; i < items_prices.length; i++) {
+            sub_total += parseInt($(items_prices[i]).text());
+          }
+
+          $('#sub_total').html('$' + sub_total);
+          
+          let total = 0;
+          const shippig_rate = $('#shippig_rate').text();
+          console.log(shippig_rate);
+          total = parseInt(sub_total) + parseInt(shippig_rate);
+          $('#total_amount').text('$' + total);
+
+        });
+      </script>

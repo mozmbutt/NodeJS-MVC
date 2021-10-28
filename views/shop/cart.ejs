@@ -27,54 +27,63 @@
             <div class="container">
                 <div class="cart_inner">
                     <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% if(products.length> 0){ %>
+                        <% if(products.length> 0){ %>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
                                     <% for(product of products) { %>
-                                        <tr>
-                                            <td>
-                                                <div class="media">
-                                                    <div class="d-flex">
-                                                        <img src="data:image/png;base64, <%= product.image %>" alt="">
+                                        <form action="/remove-from-cart" method="post" novalidate="novalidate">
+                                            <tr>
+                                                <td>
+                                                    <div class="media">
+                                                        <div class="d-flex">
+                                                            <img src="data:image/png;base64, <%= product.image %>"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <p>
+                                                                <%= product.title %>
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div class="media-body">
-                                                        <p>
-                                                            <%= product.title %>
-                                                        </p>
+                                                </td>
+                                                <td>
+                                                    <h5>
+                                                        $ <%= product.price %>
+                                                    </h5>
+                                                </td>
+                                                <td>
+                                                    <div class="product_count">
+
+                                                        <h5>
+                                                            <%= product.cart_item.quantity %>
+                                                        </h5>
+                                                        <input type="hidden" name="product_id"
+                                                            value="<%= product.id %>">
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <h5> $ <%= product.price %>
-                                                </h5>
-                                            </td>
-                                            <td>
-                                                <div class="product_count">
-                                                    <input type="text" name="qty" id="sst" maxlength="12" value="<%= product.cart_item.quantity %> "
-                                                        title="Quantity:" class="input-text qty">
-                                                    <button
-                                                        onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                                        class="increase items-count" type="button"><i
-                                                            class="lnr lnr-chevron-up"></i></button>
-                                                    <button
-                                                        onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                                        class="reduced items-count" type="button"><i
-                                                            class="lnr lnr-chevron-down"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <h5>$ <%= product.price %></h5>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>
+                                                    <h5 style="display: flex;">
+                                                        $<input disabled type="number" name="item_total"
+                                                            class="item_total"
+                                                            value="<%= parseInt( product.cart_item.quantity) * parseInt(product.price) %>">
+                                                    </h5>
+                                                </td>
+                                                <td>
+                                                    <button type="submit" value="submit"
+                                                        class="button danger-btn">Remove</button>
+                                                </td>
+                                            </tr>
+                                        </form>
+
                                         <% } %>
                                             <tr class="bottom_button">
                                                 <td>
@@ -105,7 +114,7 @@
                                                     <h5>Subtotal</h5>
                                                 </td>
                                                 <td>
-                                                    <h5>$2160.00</h5>
+                                                    <h5>$ <span id="sub_total"></span></h5>
                                                 </td>
                                             </tr>
                                             <tr class="shipping_area">
@@ -157,23 +166,27 @@
                                                 </td>
                                                 <td>
                                                     <div class="checkout_btn_inner d-flex align-items-center">
-                                                        <a class="gray_btn" href="#">Continue Shopping</a>
-                                                        <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                                        <a class="gray_btn" href="/">Continue Shopping</a>
+                                                        <form action="/proceedToCheckout" method="post">
+                                                            <button type="submit" value="submit"
+                                                                class="button danger-btn">Proceed to Checkout</button>
+                                                        </form>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <% } else {%>
 
-                                                <tr>
-                                                    <h3>
-                                                        No Products Available !
-                                                    </h3>
-                                                </tr>
+                                </tbody>
+                            </table>
+                            <% } else {%>
 
-                                                <% } %>
+                                <tr>
+                                    <h3>
+                                        No Products Available !
+                                    </h3>
+                                </tr>
 
-                            </tbody>
-                        </table>
+                                <% } %>
+
                     </div>
                 </div>
             </div>
@@ -183,3 +196,18 @@
 
 
         <%- include('../includes/footer.ejs') %>
+
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    const items_prices = $(".item_total");
+                    let sub_total = 0;
+                    for (var i = 0; i < items_prices.length; i++) {
+                        sub_total += parseInt($(items_prices[i]).val());
+                    }
+
+                    $('#sub_total').html(sub_total);
+
+                });
+            </script>

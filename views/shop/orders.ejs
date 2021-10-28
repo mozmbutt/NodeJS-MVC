@@ -1,0 +1,100 @@
+<%- include('../includes/app.ejs') %>
+
+    <%- include('../includes/header.ejs') %>
+
+        <main class="site-main">
+
+            <section class="section-margin calc-60px">
+                <div class="container">
+                    <div class="section-intro pb-60px">
+                        <p>All Orders of</p>
+                        <h2>Our <span class="section-intro__style">Store</span></h2>
+                    </div>
+                    <div class="row">
+                        <% if(orders.length> 0) { %>
+                            <h4>
+                                All Orders
+                            </h4>
+                            <table class="table">
+                                <thead>
+
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Order Items</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <% orders.forEach(order=> {
+                                        let orderPrice = 0;
+
+                                        %>
+                                        <tr>
+                                            <th scope="row">
+                                                Order # <%= order.id %>
+                                            </th>
+                                            <td>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">SKU #</th>
+                                                            <th scope="col">Product</th>
+                                                            <th scope="col">Quantity</th>
+                                                            <th scope="col">Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% order.products.forEach( product=> {
+                                                            orderPrice += parseInt( product.order_item.quantity) *
+                                                            parseInt(product.price)
+
+                                                            %>
+                                                            <tr>
+                                                                <td>
+                                                                    <%= product.id %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= product.sku %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= product.title %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= product.order_item.quantity %>
+                                                                </td>
+                                                                <td class="product_price">
+                                                                    <%= parseInt( product.order_item.quantity) *
+                                                                        parseInt(product.price) %>
+                                                                </td>
+                                                            </tr>
+                                                            <% }) %>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <th>
+                                                                        Total : $ <span id="total_bill">
+                                                                            <%= orderPrice %>
+                                                                        </span>
+                                                                    </th>
+                                                                </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                            <% } else { %>
+                                <h5>
+                                    No order yet !
+                                </h5>
+                                <% } %>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <%- include('../includes/footer.ejs') %>
