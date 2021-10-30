@@ -9,6 +9,8 @@ router.get('/contact' , HomeController.contact)
 router.get('/view-product/:id', ProductController.fetchById);
 router.get('/reset-password', AuthController.getResetPassword);
 router.post('/reset-password', AuthController.resetPassword);
-router.get('/reset-password/:token', AuthController.resetPasswordRequest);
+
+router.get('/new-password/:token', AuthController.getNewPassword);
+router.post('/new-password', AuthController.setNewPassword);
 
 module.exports = router;

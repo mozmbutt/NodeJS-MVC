@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendGridTransport = require('nodemailer-sendgrid-transport');
 const crypto = require('crypto');
+const { Op } = require("sequelize");
 
 
 const transporter = nodemailer.createTransport(sendGridTransport({
@@ -193,8 +194,9 @@ exports.resetPassword = (req, res, next) => {
                 from: 'mozmbutt8@gmail.com',
                 subject: 'Aroma - Reset Password',
                 text: `
-                    <p>You requested to reset password</p>
-                    <p>Click this <a href="http://127.0.0.1:8000/reset-password/${token}"> reset password </a> link to reset your password.</p>
+                    You requested to reset password.
+                    Click this link to update password.
+                    http://127.0.0.1:8000/new-password/${token}
                 `
             })
         })
@@ -204,17 +206,84 @@ exports.resetPassword = (req, res, next) => {
     });
 }
 
-exports.resetPasswordRequest = (req, res, next) => {
-    let errorMessage = req.flash('error');
-    if (errorMessage.length > 0) {
-        errorMessage = errorMessage[0];
-    } else {
-        errorMessage = null;
+exports.getNewPassword = (req, res, next) => {
+
+    let token = req.params.token;
+    User.findOne({
+        where: {
+            token: token,
+            token_expire: {
+                [Op.gt]: Date.now()
+            }
+        }
+    })
+    .then((user) => {
+        let errorMessage = req.flash('error');
+        if (errorMessage.length > 0) {
+            errorMessage = errorMessage[0];
+        } else {
+            errorMessage = null;
+        }
+
+        return res.render('auth/new-password', {
+            pageTitle: 'New Password',
+            activeLogin: true,
+            errorMessage: errorMessage,
+            userId: user.id,
+            token: token,
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+    
+}
+
+exports.setNewPassword = (req, res, next) => {
+    let password = req.body.password;
+    let confirmPassword = req.body.confirmPassword;
+    let userId = req.body.user_id;
+    let token = req.body.token;
+    let my_user;
+
+    if(password !== confirmPassword){
+        req.flash('error' , 'Password doesnt match !');
+        return res.redirect('/new-password/'+token);
     }
 
-    return res.render('auth/new-password', {
-        pageTitle: 'New Password',
-        activeLogin: true,
-        errorMessage: errorMessage
+    User.findOne({
+        where: {
+            token: token,
+            token_expire: {
+                [Op.gt]: Date.now()
+            },
+            id: userId
+        }
+    })
+    .then((user) => {
+        my_user = user;
+        return bcrypt.hash(password , 12);
+    })
+    .then( hashedPassword => {
+        my_user.password = hashedPassword,
+        my_user.token = undefined;
+        my_user.token_expire = undefined;
+        return my_user.save();
+    })
+    .then( result => {
+        res.redirect('/admin/login');
+        transporter.sendMail({
+            to: my_user.email,
+            from: 'mozmbutt8@gmail.com',
+            subject: 'Aroma - Password changed successfully',
+            text: `
+                Your password has been changed successfully.
+            `
+        })
+    })
+    .catch((err) => {
+        console.log(err);
     });
+
+
 }
