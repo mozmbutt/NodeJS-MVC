@@ -38,23 +38,28 @@
 						<div class="login_form_inner register_form_inner">
 							<h3>Create an account</h3>
 							<form class="row login_form" action="/admin/register" id="register_form" method="post">
+								<% if(errorMessage) { %> 
+									<div class="alert alert-danger form-control" role="alert">
+										<%= errorMessage %> 
+									</div>
+								<% } %>
 								<input type="hidden" value="<%= csrfToken %>" name="_csrf">
 								<div class="col-md-12 form-group">
-									<input type="text" class="form-control" id="name" name="username" placeholder="Username"
+									<input type="text" class="form-control" id="name" name="username" placeholder="Username" required
 										onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
 								</div>
 								<div class="col-md-12 form-group">
-									<input type="text" class="form-control" id="email" name="email"
+									<input type="text" class="form-control" id="email" name="email" required
 										placeholder="Email Address" onfocus="this.placeholder = ''"
 										onblur="this.placeholder = 'Email Address'">
 								</div>
 								<div class="col-md-12 form-group">
-									<input type="password" class="form-control" id="password" name="password"
+									<input type="password" class="form-control" id="password" name="password" required
 										placeholder="Password" onfocus="this.placeholder = ''"
 										onblur="this.placeholder = 'Password'">
 								</div>
 								<div class="col-md-12 form-group">
-									<input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+									<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
 										placeholder="Confirm Password" onfocus="this.placeholder = ''"
 										onblur="this.placeholder = 'Confirm Password'">
 								</div>

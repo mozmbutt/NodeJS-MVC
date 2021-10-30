@@ -5,6 +5,7 @@ const path = require('path');
 const session = require('express-session');
 const SessionStore = require('express-session-sequelize')(session.Store);
 const csrf = require('csurf');
+const flash = require('connect-flash');
 
 //project files
 const authRoutes = require('./routes/auth');
@@ -38,6 +39,7 @@ app.use(session({
     saveUninitialized: false,
 }));
 
+app.use(flash());
 app.use(csrfProtection);
 
 app.use((req, res, next) => {

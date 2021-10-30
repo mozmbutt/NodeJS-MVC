@@ -1,3 +1,6 @@
 input.nav-link {
     border: none;
 }
+.alert.alert-danger.form-control {
+    padding: 7px !important;
+}
