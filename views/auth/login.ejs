@@ -38,7 +38,7 @@
 						<div class="login_form_inner">
 							 
 							<h3>Log in to enter</h3>
-							<form class="row login_form" action="/admin/login" id="contactForm" method="post">
+							<form class="row login_form" action="/admin/login" id="contactForm" method="post" novalidate>
 								<% if(errorMessage) { %> 
 									<div class="alert alert-danger form-control" role="alert">
 										<%= errorMessage %> 
@@ -46,11 +46,13 @@
 								<% } %>
 								<input type="hidden" value="<%= csrfToken %>" name="_csrf">
 								<div class="col-md-12 form-group">
-									<input type="email" class="form-control" id="email" name="email" placeholder="Email" required
+									<input type="email" class="form-control <%= validationError.find( e => e.param === 'email') ? 'invalid-input' : '' %>"
+									id="email" name="email" placeholder="Email" required value="<%= oldInputs.email %>"
 										onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
 								</div>
 								<div class="col-md-12 form-group">
-									<input type="password" class="form-control" id="password" name="password" placeholder="Password" required
+									<input type="password" class="form-control <%= validationError.find( e => e.param === 'password') ? 'invalid-input' : '' %>" 
+									id="password" name="password" placeholder="Password" required value="<%= oldInputs.password %>"
 										onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
 								</div>
 								<div class="col-md-12 form-group">

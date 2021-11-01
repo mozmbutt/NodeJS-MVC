@@ -3,4 +3,8 @@ input.nav-link {
 }
 .alert.alert-danger.form-control {
     padding: 7px !important;
+    height: auto;
+}
+.invalid-input {
+    border-bottom: 1px solid red !important;
 }
